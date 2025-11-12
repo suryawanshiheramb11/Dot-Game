@@ -1,0 +1,145 @@
+:root {
+    /* --- Game Config --- */
+    --box-size: 60px; /* From 6x6 grid */
+    --dot-size: 18px;
+    --line-thickness: 10px; /* Thicker, rounded lines */
+    
+    /* --- New Dark Theme Palette --- */
+    --p1-color: #00b894; /* Mint Green (Bright for lines/text) */
+    --p1-color-light: #1c2e2a; /* Dark Mint (Dark for box BG) */
+    --p2-color: #ff7675; /* Soft Coral (Bright for lines/text) */
+    --p2-color-light: #3e2424; /* Dark Coral (Dark for box BG) */
+    
+    --line-color: #373e47; /* Unfilled line */
+    --line-hover-color: #586069; /* Unfilled line hover */
+    --dot-color: #444c56; /* Dot color */
+    
+    --bg-color: #22272e; /* Dark page background */
+    --container-bg: #2d333b; /* Game board background */
+    --container-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    --container-border: #444c56;
+    --text-color: #cdd9e5; /* Main text color */
+    --title-color: #ffffff; /* "Dots and Boxes" title */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin-top: 20px;
+}
+
+h1 {
+    font-weight: 300;
+    color: var(--title-color);
+    font-size: 3em;
+}
+
+.game-info {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#turn-display {
+    font-size: 1.8em;
+    font-weight: 600;
+    transition: color 0.3s ease-in-out;
+}
+#turn-display.player-1 { color: var(--p1-color); }
+#turn-display.player-2 { color: var(--p2-color); }
+
+#score-display {
+    font-size: 1.2em;
+    color: #8b949e; /* Lighter gray for dark mode */
+    margin-top: 10px;
+}
+
+#game-board-container {
+    border: 1px solid var(--container-border);
+    padding: 15px;
+    background: var(--container-bg);
+    box-shadow: var(--container-shadow);
+    border-radius: 12px; /* Rounded corners */
+}
+
+#game-board {
+    display: grid;
+    /* Grid template columns/rows will be set by JS */
+}
+
+/* --- Grid Elements --- */
+.grid-element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dot {
+    width: var(--dot-size);
+    height: var(--dot-size);
+    background-color: var(--dot-color);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.box {
+    width: var(--box-size);
+    height: var(--box-size);
+    font-size: 2.5em; /* Adjusted for smaller box */
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    border-radius: 4px; /* Slightly rounded boxes */
+    user-select: none; /* Prevents text selection */
+}
+
+.line {
+    background-color: var(--line-color);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    border-radius: 5px; /* Rounded lines */
+}
+.line:not(.filled) {
+    cursor: pointer;
+}
+.line:not(.filled):hover {
+    background-color: var(--line-hover-color) !important;
+    transform: scale(1.05); /* Subtle hover effect */
+}
+
+/* Specific line orientations */
+.line-h {
+    width: var(--box-size);
+    height: var(--line-thickness);
+}
+
+.line-v {
+    width: var(--line-thickness);
+    height: var(--box-size);
+}
+
+/* --- Player States --- */
+
+/* Filled lines */
+.line.player-1 { background-color: var(--p1-color); }
+.line.player-2 { background-color: var(--p2-color); }
+
+/* Filled boxes */
+/* * The bright color is now the TEXT
+ * The dark, tinted color is the BACKGROUND
+ */
+.box.player-1 {
+    background-color: var(--p1-color-light);
+    color: var(--p1-color);
+}
+.box.player-2 {
+    background-color: var(--p2-color-light);
+    color: var(--p2-color);
+}
+
+/* Game over state */
+#turn-display.game-over {
+    color: var(--title-color);
+    font-weight: 700;
+}
